@@ -22,7 +22,7 @@ public class ServiceAlias {
     }
 
     @Transactional
-    public Alias findByName(String alias) {
+    public Alias findByName(String alias) throws DomainException{
         return serviceAliasDomain.findByName(alias);
     }
 

@@ -2,6 +2,7 @@ package com.rennan.shortUrl.view;
 
 import com.rennan.shortUrl.domain.Alias;
 import com.rennan.shortUrl.service.ServiceAlias;
+import com.rennan.shortUrl.util.Enum.ErrorType;
 import com.rennan.shortUrl.util.exception.DomainException;
 import com.rennan.shortUrl.view.dto.RequestAliasDto;
 import com.rennan.shortUrl.view.dto.StatisticsDto;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -57,8 +59,20 @@ public class HomeController {
     }
 
     @RequestMapping("/u/{aliasName}")
-    public String redirect(@PathVariable String aliasName, HttpServletResponse httpServletResponse) {
-        Alias alias = serviceAlias.findByName(aliasName);
-        return "redirect:" + "http://" +alias.getUrl();
+    public @ResponseBody RequestAliasDto redirect(@PathVariable String aliasName, HttpServletResponse httpServletResponse) {
+            RequestAliasDto requestAliasDto = new RequestAliasDto(Instant.now());
+        try {
+            Alias alias = serviceAlias.findByName(aliasName);
+            httpServletResponse.sendRedirect("http://" +alias.getUrl());
+        }catch (DomainException e){
+            requestAliasDto.setErrorCode(e.getErrorType().getCode());
+            requestAliasDto.setDescription(e.getErrorType().getDescription());
+        }catch (IOException e) {
+            requestAliasDto.setErrorCode(ErrorType.UNKNOW.getCode());
+            requestAliasDto.setDescription(ErrorType.UNKNOW.getDescription());
+        }finally {
+            requestAliasDto.getStatistics().setEndTime(Instant.now());
+        }
+        return requestAliasDto;
     }
 }

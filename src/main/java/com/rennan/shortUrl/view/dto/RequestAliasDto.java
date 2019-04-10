@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rennan.shortUrl.domain.Alias;
 
+import java.time.Instant;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RequestAliasDto {
 
@@ -16,6 +18,12 @@ public class RequestAliasDto {
     private StatisticsDto statistics;
 
     public RequestAliasDto() {
+
+    }
+
+    public RequestAliasDto(Instant start){
+        this.statistics = new StatisticsDto();
+        statistics.setStartTime(start);
     }
 
     public String getAlias() {

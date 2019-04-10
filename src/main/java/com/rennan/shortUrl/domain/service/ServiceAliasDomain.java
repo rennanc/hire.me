@@ -15,16 +15,23 @@ public class ServiceAliasDomain {
 
     public void create(Alias alias) throws DomainException{
 
-        Alias equivalentAlias = findByName(alias.getName());
-
-        if(equivalentAlias != null){
+        if(isThereEqualAlias(alias.getName())){
             throw new DomainException(ErrorType.ERROR_1);
         }
 
         postgreAliasData.save(alias);
     }
 
-    public Alias findByName(String aliasName){
-        return postgreAliasData.findByName(aliasName);
+    private boolean isThereEqualAlias(String aliasName){
+        return postgreAliasData.findByName(aliasName) != null;
+    }
+
+    public Alias findByName(String aliasName) throws DomainException{
+        Alias alias = postgreAliasData.findByName(aliasName);
+
+        if(alias == null){
+            throw new DomainException(ErrorType.ERROR_2);
+        }
+        return alias;
     }
 }
