@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -21,9 +23,16 @@ public class ServiceAlias {
         serviceAliasDomain.create(alias);
     }
 
-    @Transactional
     public Alias findByName(String alias) throws DomainException{
         return serviceAliasDomain.findByName(alias);
     }
 
+    @Transactional
+    public void saveVisit(Alias alias) {
+        serviceAliasDomain.saveVisit(alias);
+    }
+
+    public List<Alias> getTopTenVisits() {
+        return serviceAliasDomain.getTopTenVisits();
+    }
 }

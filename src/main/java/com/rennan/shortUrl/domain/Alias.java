@@ -13,6 +13,7 @@ public class Alias {
     private long id;
     private String name;
     private String url;
+    private Long visits;
 
     public Long getId() {
         return id;
@@ -36,5 +37,13 @@ public class Alias {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Long getVisits() {
+        return visits;
+    }
+
+    public void setVisits(Long visits) {
+        this.visits = visits;
     }
 }

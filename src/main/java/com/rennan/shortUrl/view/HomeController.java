@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -63,6 +64,7 @@ public class HomeController {
             RequestAliasDto requestAliasDto = new RequestAliasDto(Instant.now());
         try {
             Alias alias = serviceAlias.findByName(aliasName);
+            serviceAlias.saveVisit(alias);
             httpServletResponse.sendRedirect("http://" +alias.getUrl());
         }catch (DomainException e){
             requestAliasDto.setErrorCode(e.getErrorType().getCode());
@@ -74,5 +76,10 @@ public class HomeController {
             requestAliasDto.getStatistics().setEndTime(Instant.now());
         }
         return requestAliasDto;
+    }
+
+    @RequestMapping("/top10")
+    public @ResponseBody List<Alias> getTopTen() {
+        return serviceAlias.getTopTenVisits();
     }
 }

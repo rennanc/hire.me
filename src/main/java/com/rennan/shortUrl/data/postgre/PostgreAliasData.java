@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
+
 @Repository
 public abstract class PostgreAliasData implements IPostgreAliasData {
 
@@ -30,6 +32,19 @@ public abstract class PostgreAliasData implements IPostgreAliasData {
         }catch (NoResultException e){
             return null;
         }
+    }
+
+    @Override
+    public List<Alias> findTopTenVisits(){
+
+        StringBuilder jpql = new StringBuilder(" SELECT alias from Alias alias ")
+                .append(" ORDER BY alias.visits DESC ");
+
+
+        TypedQuery<Alias> query = manager.createQuery(jpql.toString(), Alias.class);
+        query.setMaxResults(10);
+
+        return query.getResultList();
     }
 
 }

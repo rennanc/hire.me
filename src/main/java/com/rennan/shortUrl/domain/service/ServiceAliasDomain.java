@@ -7,6 +7,8 @@ import com.rennan.shortUrl.util.exception.DomainException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ServiceAliasDomain {
 
@@ -33,5 +35,15 @@ public class ServiceAliasDomain {
             throw new DomainException(ErrorType.ERROR_2);
         }
         return alias;
+    }
+
+    public void saveVisit(Alias alias) {
+        long visits = alias.getVisits() == null ? 0 : alias.getVisits();
+        alias.setVisits(visits + 1);
+        postgreAliasData.save(alias);
+    }
+
+    public List<Alias> getTopTenVisits() {
+        return postgreAliasData.findTopTenVisits();
     }
 }
