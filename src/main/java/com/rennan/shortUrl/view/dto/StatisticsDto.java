@@ -37,7 +37,7 @@ public class StatisticsDto {
     @JsonProperty("time_taken")
     public String getTimetaken() {
         if(this.startTime != null && this.endTime != null){
-            return Duration.between(this.startTime, this.endTime) + MILISECONDS;
+            return Duration.between(this.startTime, this.endTime).toMillis() + MILISECONDS;
         }
         return null;
     }

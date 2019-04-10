@@ -45,7 +45,7 @@ public class HomeController {
             serviceAlias.create(requestAlias.getEntity());
         }catch (DomainException e){
             requestAlias.setErrorCode(e.getErrorType().getCode());
-            requestAlias.setErrorCode(e.getErrorType().getDescription());
+            requestAlias.setDescription(e.getErrorType().getDescription());
         }finally {
             requestAlias.getStatistics().setEndTime(Instant.now());
         }
