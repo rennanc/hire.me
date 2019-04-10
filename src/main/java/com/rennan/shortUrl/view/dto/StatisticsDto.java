@@ -1,17 +1,44 @@
 package com.rennan.shortUrl.view.dto;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Duration;
+import java.time.Instant;
+
+@JsonIgnoreProperties( { "startTime", "endTime" })
 public class StatisticsDto {
 
-    @JsonAlias("time_taken")
-    private String timetaken;
+    private final String MILISECONDS = "ms";
 
-    public String getTimetaken() {
-        return timetaken;
+    private Instant startTime;
+    private Instant endTime;
+
+    public StatisticsDto(){
+        this.startTime = Instant.now();
     }
 
-    public void setTimetaken(String timetaken) {
-        this.timetaken = timetaken;
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public Instant getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
+    }
+
+    @JsonProperty("time_taken")
+    public String getTimetaken() {
+        if(this.startTime != null && this.endTime != null){
+            return Duration.between(this.startTime, this.endTime) + MILISECONDS;
+        }
+        return null;
     }
 }

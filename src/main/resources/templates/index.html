@@ -5,9 +5,13 @@
     <title>Title2</title>
 </head>
 <body>
-    teste23 4 <span th:text="${now}">Our App</span> wds 2
+    Encurtador de URL
     <form action="create" th:action="@{/create}" th:object="${requestAlias}" method="post">
-
+        <label th:for="${url}">Digite a url</label>
+        <input type="text" th:field="*{url}" />
+        <label th:for="${alias}">Digite um nome</label>
+        <input type="text" th:field="*{alias}" />
+        <input type="submit" name="enviar" value="enviar">
     </form>
 </body>
 </html>
