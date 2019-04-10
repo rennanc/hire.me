@@ -3,6 +3,7 @@ package com.rennan.shortUrl.view;
 import com.rennan.shortUrl.domain.Alias;
 import com.rennan.shortUrl.service.ServiceAlias;
 import com.rennan.shortUrl.util.Enum.ErrorType;
+import com.rennan.shortUrl.util.ShorturlUtils;
 import com.rennan.shortUrl.util.exception.DomainException;
 import com.rennan.shortUrl.view.dto.RequestAliasDto;
 import com.rennan.shortUrl.view.dto.StatisticsDto;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -54,7 +56,8 @@ public class HomeController {
 
     private void handleCreateAlias(RequestAliasDto requestAlias){
         if(StringUtils.isEmpty(requestAlias.getAlias())){
-            requestAlias.setAlias(UUID.randomUUID().toString());
+            int value = ShorturlUtils.decode(UUID.randomUUID().toString());
+            requestAlias.setAlias(ShorturlUtils.encode(value));
         }
     }
 
