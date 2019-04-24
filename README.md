@@ -1,5 +1,15 @@
-# Hire.me
+# Simplify Url
 Um pequeno projeto para testar suas habilidades como programador.
+https://simplifyurl.herokuapp.com/shorturl/
+
+## Tecnologias Utilizadas
+
+1. Spring Boot
+3. Postgre
+4. Thymeleaf
+5. Heroku
+
+# Desafio
 
 ## Instruções Gerais
 
